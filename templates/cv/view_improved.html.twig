@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CV amélioré{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <div class="rounded-4 bg-cream shadow-sm p-4 mb-4">
+        <h1 class="h4 mb-1 text-darken">CV amélioré (simulation IA)</h1>
+        <p class="text-muted mb-0">Comparez la version originale et la version améliorée.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body p-4">
+                    <h2 class="h6 text-uppercase text-muted">Original</h2>
+                    <div class="bg-white border rounded-3 p-3" style="white-space: pre-wrap;">{{ cv.contenuOriginal }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body p-4">
+                    <h2 class="h6 text-uppercase text-muted">Amélioré</h2>
+                    <div class="bg-white border rounded-3 p-3" style="white-space: pre-wrap;">{{ cv.contenuAmeliore }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ path('app_cv_manage') }}" class="btn btn-secondary">Retour au CV</a>
+                <form method="POST" action="{{ path('app_cv_improve') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('improve_cv') }}">
+                    <button type="submit" class="btn btn-primary">Améliorer à nouveau</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

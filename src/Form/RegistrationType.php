@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationType extends AbstractType
 {
@@ -17,24 +18,35 @@ class RegistrationType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Nom']
+                'label' => 'Nom',
+                'required' => true,
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Votre nom'],
             ])
             ->add('prenom', TextType::class, [
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Prénom']
+                'label' => 'Prénom',
+                'required' => true,
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Votre prénom'],
             ])
             ->add('email', EmailType::class, [
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Email']
+                'label' => 'Email',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Email'],
             ])
             ->add('password', PasswordType::class, [
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Mot de passe (min 4 caractères)']
+                'label' => 'Mot de passe',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Mot de passe (min 4 caracteres)'],
             ])
             ->add('type', ChoiceType::class, [
                 'mapped' => false,
-                'choices'  => [
-                    'Étudiant' => 'ETUDIANT',
-                    'Diplômé' => 'DIPLOME',
+                'label' => 'Type utilisateur',
+                'choices' => [
+                    'Étudiant' => User::TYPE_ETUDIANT,
+                    'Diplômé' => User::TYPE_DIPLOME,
                 ],
-                'attr' => ['class' => 'form-select']
+                'placeholder' => 'Choisir un type',
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez choisir un type utilisateur.']),
+                ],
+                'attr' => ['class' => 'form-select'],
             ]);
     }
 

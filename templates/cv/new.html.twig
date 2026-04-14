@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un CV{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <div class="rounded-4 bg-cream shadow-sm p-4 mb-4">
+        <h1 class="h4 mb-1 text-darken">Créer un CV</h1>
+        <p class="text-muted mb-0">Importez un PDF ou collez votre CV en texte, puis améliorez-le avec l’IA (simulation).</p>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-4">
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+            <div class="mb-3">
+                {{ form_label(form.titre) }}
+                {{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
+                <div class="text-danger small">{{ form_errors(form.titre) }}</div>
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.cvPdf) }}
+                {{ form_widget(form.cvPdf, {'attr': {'class': 'form-control'}}) }}
+                <div class="form-text">PDF uniquement. Si vous importez un PDF, on tentera d’extraire le texte automatiquement.</div>
+                <div class="text-danger small">{{ form_errors(form.cvPdf) }}</div>
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.contenuOriginal) }}
+                {{ form_widget(form.contenuOriginal, {'attr': {'class': 'form-control', 'rows': 12}}) }}
+                <div class="form-text">Optionnel si vous importez un PDF.</div>
+                <div class="text-danger small">{{ form_errors(form.contenuOriginal) }}</div>
+            </div>
+
+            <div class="form-check mb-3">
+                {{ form_widget(form.estPublic, {'attr': {'class': 'form-check-input'}}) }}
+                {{ form_label(form.estPublic, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                <div class="text-danger small">{{ form_errors(form.estPublic) }}</div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <a href="{{ path('app_cv_manage') }}" class="btn btn-secondary">Annuler</a>
+                <button type="submit" class="btn btn-primary">Créer</button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

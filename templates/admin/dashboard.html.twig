@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <div class="rounded-4 bg-cream shadow-sm p-4 mb-4">
+        <h1 class="h4 mb-1 text-darken">Admin Dashboard</h1>
+        <p class="text-muted mb-0">Gestion des utilisateurs, CV et administrateurs.</p>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body p-4">
+                    <div class="fw-semibold mb-2">Manage Users</div>
+                    <div class="text-muted mb-3">Activer / désactiver, supprimer.</div>
+                    <a href="{{ path('app_admin_users') }}" class="btn btn-primary w-100">Ouvrir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body p-4">
+                    <div class="fw-semibold mb-2">Manage CVs</div>
+                    <div class="text-muted mb-3">Voir versions originale et améliorée.</div>
+                    <a href="{{ path('app_admin_cvs') }}" class="btn btn-primary w-100">Ouvrir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body p-4">
+                    <div class="fw-semibold mb-2">Manage Admins</div>
+                    <div class="text-muted mb-3">Liste + ajout manuel.</div>
+                    <a href="{{ path('app_admin_admins') }}" class="btn btn-primary w-100">Ouvrir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

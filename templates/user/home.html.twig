@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Khadamni{% endblock %}
+
+{% block body %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body p-4">
+                <h1 class="h4 mb-2 text-darken">Bienvenue{% if user and user.prenom %}, {{ user.prenom }}{% endif %}.</h1>
+                <p class="text-muted mb-0">Prenez 5 minutes aujourd'hui pour améliorer votre CV et avancer vers votre prochain entretien.</p>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                    <div>
+                        <div class="fw-semibold text-darken" style="font-family: 'Cairo', sans-serif;">فيديو تعريفي</div>
+                        <div class="text-muted" style="font-family: 'Cairo', sans-serif;">شاهد الفكرة بسرعة وابدأ رحلتك مع «خدمني».</div>
+                    </div>
+                </div>
+
+                {% if video_embed_url %}
+                    <div class="ratio ratio-16x9 mt-3 rounded-4 overflow-hidden border">
+                        <iframe
+                            src="{{ video_embed_url }}"
+                            title="Khadamni - Intro"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                {% else %}
+                    <div class="alert alert-light border mt-3 mb-0">
+                        Ajoutez une URL d'embed vidéo dans <code>.env</code> : <code>MOTIVATIONAL_VIDEO_EMBED_URL</code>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h2 class="h6 text-uppercase text-muted mb-3">Actualités marché (IA - mock)</h2>
+            {% for item in news %}
+                <div class="card mb-3">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <div class="fw-semibold text-darken">{{ item.title }}</div>
+                                <div class="text-muted small">{{ item.date|date('d/m/Y') }}</div>
+                            </div>
+                            <span class="badge text-bg-light border">Nouveau</span>
+                        </div>
+                        <p class="text-muted mt-3 mb-0">{{ item.summary }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="text-muted">Aucune actualité.</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body p-4">
+                <div class="fw-semibold text-darken mb-3">Raccourcis</div>
+                <div class="d-grid gap-2">
+                    <a class="btn btn-primary" href="{{ path('app_profile') }}"><i class="fa-regular fa-user me-2"></i>Profil</a>
+                    <a class="btn btn-outline-primary" href="{{ path('app_cv_manage') }}"><i class="fa-regular fa-file-lines me-2"></i>CV</a>
+                    <a class="btn btn-light border" href="#" onclick="return false;"><i class="fa-solid fa-briefcase me-2"></i>Offres</a>
+                    <a class="btn btn-light border" href="#" onclick="return false;"><i class="fa-regular fa-flag me-2"></i>Réclamations</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body p-4">
+                <div class="fw-semibold text-darken mb-2" style="font-family: 'Cairo', sans-serif;">رسالة اليوم</div>
+                <div class="text-muted" style="font-family: 'Cairo', sans-serif;">ابدأ الآن مع «خدمني»: حسّن سيرتك الذاتية بخطوات بسيطة، وخلي فرص التدريب والعمل أقرب ليك كل يوم.</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Users{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+        <div>
+            <h1 class="h4 mb-1 text-darken">Utilisateurs</h1>
+            <div class="text-muted">Liste de tous les utilisateurs.</div>
+        </div>
+        <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Type</th>
+                            <th>Active</th>
+                            <th>Admin role</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                            <tr>
+                                <td>{{ u.id }}</td>
+                                <td>{{ u.email }}</td>
+                                <td>{{ u.type }}</td>
+                                <td>
+                                    {% if u.active %}
+                                        <span class="badge text-bg-success">Actif</span>
+                                    {% else %}
+                                        <span class="badge text-bg-secondary">Inactif</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ u.adminRole ?: '-' }}</td>
+                                <td class="text-end">
+                                    <form method="post" action="{{ path('app_admin_user_toggle_active', {id: u.id}) }}" class="d-inline">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('toggle_active_' ~ u.id) }}">
+                                        <button class="btn btn-sm btn-light border" type="submit">
+                                            {{ u.active ? 'Désactiver' : 'Activer' }}
+                                        </button>
+                                    </form>
+                                    <form method="post" action="{{ path('app_admin_user_delete', {id: u.id}) }}" class="d-inline" onsubmit="return confirm('Supprimer cet utilisateur ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete_user_' ~ u.id) }}">
+                                        <button class="btn btn-sm btn-danger" type="submit">Supprimer</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">Aucun utilisateur.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

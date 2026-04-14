@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="rounded-4 bg-cream shadow-sm p-5">
+                <h1 class="mb-2 text-darken">Bienvenue, {{ user.prenom }} {{ user.nom }} !</h1>
+                <p class="lead text-darken mb-3">Votre espace Khadamni pour gérer votre CV, votre profil et avancer sereinement.</p>
+                <div class="d-flex flex-column flex-sm-row gap-3">
+                    <a href="{{ path('app_profile') }}" class="btn btn-primary btn-lg">Voir mon profil</a>
+                    <a href="{{ path('app_cv_manage') }}" class="btn btn-outline-primary btn-lg">Gérer mon CV</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body text-center py-5">
+                    <div class="mb-4 rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" style="width:72px;height:72px;">
+                        <i class="fas fa-user fa-2x"></i>
+                    </div>
+                    <h5 class="card-title mt-3">Mon Profil</h5>
+                    <p class="card-text text-muted">Consultez et modifiez vos informations personnelles.</p>
+                    <a href="{{ path('app_profile') }}" class="btn btn-primary">Accéder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body text-center py-5">
+                    <div class="mb-4 rounded-circle bg-warning text-white d-inline-flex align-items-center justify-content-center" style="width:72px;height:72px;">
+                        <i class="fas fa-file-alt fa-2x"></i>
+                    </div>
+                    <h5 class="card-title mt-3">Mon CV</h5>
+                    <p class="card-text text-muted">Accédez à votre CV et améliorez-le pour vos candidatures.</p>
+                    <a href="{{ path('app_cv_manage') }}" class="btn btn-primary">Accéder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body text-center py-5">
+                    <div class="mb-4 rounded-circle bg-secondary text-white d-inline-flex align-items-center justify-content-center" style="width:72px;height:72px;">
+                        <i class="fas fa-sign-out-alt fa-2x"></i>
+                    </div>
+                    <h5 class="card-title mt-3">Déconnexion</h5>
+                    <p class="card-text text-muted">Sécurisez votre session en vous déconnectant après utilisation.</p>
+                    <a href="{{ path('app_logout') }}" class="btn btn-outline-primary">Se déconnecter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,24 +1,179 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Khadamni{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>â—</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <style>
+            :root {
+                --kh-orange: #ff8c00;
+                --kh-navy: #0a2340;
+                --kh-cream: #fff8ed;
+                --kh-text: #0f172a;
+            }
+
+            html, body {
+                min-height: 100%;
+                background: var(--kh-cream) !important;
+            }
+
+            body {
+                color: var(--kh-text);
+                font-family: 'Poppins', sans-serif;
+            }
+
+            .bg-cream {
+                background: var(--kh-cream) !important;
+            }
+
+            .text-darken {
+                color: var(--kh-text);
+            }
+
+            .text-orange {
+                color: var(--kh-orange) !important;
+            }
+
+            .navbar {
+                background: linear-gradient(135deg, var(--kh-navy) 0%, #102f52 100%) !important;
+            }
+
+            .navbar-brand {
+                font-weight: 800;
+                letter-spacing: 0.02em;
+            }
+
+            .nav-link {
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+
+            .nav-link:hover {
+                color: var(--kh-orange) !important;
+            }
+
+            .card {
+                border: none;
+                border-radius: 1rem;
+                box-shadow: 0 1rem 2rem rgba(15, 47, 70, 0.10);
+            }
+
+            .btn-primary {
+                background-color: var(--kh-orange);
+                border-color: var(--kh-orange);
+            }
+
+            .btn-primary:hover {
+                background-color: #e57a00;
+                border-color: #e57a00;
+            }
+
+            .btn-outline-primary {
+                color: var(--kh-orange);
+                border-color: var(--kh-orange);
+            }
+
+            .btn-outline-primary:hover {
+                background-color: var(--kh-orange);
+                border-color: var(--kh-orange);
+            }
+
+            .hero-auth {
+                min-height: calc(100vh - 90px);
+            }
+
+            .logo-khadamni {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                font-family: 'Cairo', sans-serif;
+                line-height: 1;
+            }
+
+            .logo-khadamni .logo-text {
+                font-size: 1.35rem;
+                font-weight: 800;
+                color: var(--kh-orange);
+            }
+
+            .logo-khadamni small {
+                font-size: 0.85rem;
+                color: rgba(255, 255, 255, 0.85);
+                margin-top: 0.15rem;
+            }
+
+            main {
+                background: var(--kh-cream);
+            }
+        </style>
+
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" href="{% if app.user and app.user.type == 'admin' %}{{ path('app_admin_dashboard') }}{% elseif app.user %}{{ path('app_user_home') }}{% else %}{{ path('app_login') }}{% endif %}">
+                    <div class="logo-khadamni">
+                        <span class="logo-text">خدمني</span>
+                        <small>خدمتك معانا مضمونة</small>
+                    </div>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarMain">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {% if app.user %}
+                            {% if app.user.type == 'admin' %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('app_admin_dashboard') }}">Admin</a></li>
+                            {% else %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('app_user_home') }}">Accueil</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('app_profile') }}">Profil</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('app_cv_manage') }}">CV</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" onclick="return false;">Offres</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" onclick="return false;">Réclamations</a></li>
+                            {% endif %}
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Connexion</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Inscription</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main class="py-5">
+            <div class="container">
+                {% for label, messages in app.flashes %}
+                    <div class="alert alert-{{ label == 'success' ? 'success' : label == 'error' ? 'danger' : 'info' }} alert-dismissible fade show" role="alert">
+                        {{ messages|first }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                {% block body %}{% endblock %}
+            </div>
+        </main>
+
+        <footer class="bg-white border-top py-3">
+            <div class="container text-center text-muted">© {{ "now"|date('Y') }} Khadamni</div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
-
-        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
-        {% if frankenphpHotReload %}
-        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
-        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
-        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
-        {% endif %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
     </body>
 </html>

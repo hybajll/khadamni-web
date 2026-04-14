@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Admins{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+        <div>
+            <h1 class="h4 mb-1 text-darken">Administrateurs</h1>
+            <div class="text-muted">Liste des admins + ajout manuel.</div>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{{ path('app_admin_admins_new') }}" class="btn btn-primary">Ajouter un admin</a>
+            <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in admins %}
+                            <tr>
+                                <td>{{ a.id }}</td>
+                                <td>{{ a.email }}</td>
+                                <td>{{ a.adminRole ?: '-' }}</td>
+                                <td>
+                                    {% if a.active %}
+                                        <span class="badge text-bg-success">Actif</span>
+                                    {% else %}
+                                        <span class="badge text-bg-secondary">Inactif</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">Aucun admin.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

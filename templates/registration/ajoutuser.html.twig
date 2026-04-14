@@ -1,53 +1,78 @@
-{# templates/registration/ajoutuser.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Inscription - Khadamni{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
-<div class="container mt-5">
-    <div class="card shadow mx-auto" style="max-width: 600px;">
-        <div class="card-header bg-primary text-white text-center">
-            <h3>Créer un compte</h3>
-        </div>
-        <div class="card-body">
-            {{ form_start(formAjout, {'attr': {'novalidate': 'novalidate'}}) }}
-                {# 'novalidate' permet de laisser Symfony gérer les erreurs plutôt que le navigateur #}
+<div class="hero-auth d-flex align-items-center justify-content-center bg-cream py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold text-darken mb-2">CrÃ©er un compte</h2>
+                            <p class="text-muted mb-0">Rejoignez Khadamni et gÃ©rez votre profil facilement.</p>
+                        </div>
 
-                <div class="row mb-3">
-                    <div class="col">
-                        {{ form_label(formAjout.nom) }}
-                        {{ form_widget(formAjout.nom) }}
-                        <div class="text-danger">{{ form_errors(formAjout.nom) }}</div>
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
+
+                        {% if formAjout.vars.submitted and not formAjout.vars.valid %}
+                            <div class="alert alert-danger">Le formulaire contient des erreurs. VÃ©rifiez les champs ci-dessous.</div>
+                        {% endif %}
+
+                        {{ form_start(formAjout, {'attr': {'novalidate': 'novalidate', 'data-turbo': 'false'}}) }}
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        {{ form_label(formAjout.nom) }}
+                                        {{ form_widget(formAjout.nom, {'attr': {'class': 'form-control'}}) }}
+                                        <div class="text-danger mt-1 small">{{ form_errors(formAjout.nom) }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        {{ form_label(formAjout.prenom) }}
+                                        {{ form_widget(formAjout.prenom, {'attr': {'class': 'form-control'}}) }}
+                                        <div class="text-danger mt-1 small">{{ form_errors(formAjout.prenom) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formAjout.email) }}
+                                {{ form_widget(formAjout.email, {'attr': {'class': 'form-control'}}) }}
+                                <div class="text-danger mt-1 small">{{ form_errors(formAjout.email) }}</div>
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formAjout.password) }}
+                                {{ form_widget(formAjout.password, {'attr': {'class': 'form-control'}}) }}
+                                <div class="text-danger mt-1 small">{{ form_errors(formAjout.password) }}</div>
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formAjout.type) }}
+                                {{ form_widget(formAjout.type, {'attr': {'class': 'form-select'}}) }}
+                                <div class="text-danger mt-1 small">{{ form_errors(formAjout.type) }}</div>
+                            </div>
+
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg">S'inscrire</button>
+                            </div>
+                        {{ form_end(formAjout) }}
+
+                        <div class="text-center mt-4">
+                            <p class="mb-0">Vous avez dÃ©jÃ  un compte ? <a href="{{ path('app_login') }}" class="text-orange">Connexion</a></p>
+                        </div>
                     </div>
-                    <div class="col">
-                        {{ form_label(formAjout.prenom) }}
-                        {{ form_widget(formAjout.prenom) }}
-                        <div class="text-danger">{{ form_errors(formAjout.prenom) }}</div>
-                    </div>
                 </div>
-
-                <div class="mb-3">
-                    {{ form_label(formAjout.email) }}
-                    {{ form_widget(formAjout.email) }}
-                    <div class="text-danger">{{ form_errors(formAjout.email) }}</div>
-                </div>
-
-                <div class="mb-3">
-                    {{ form_label(formAjout.password) }}
-                    {{ form_widget(formAjout.password) }}
-                    <div class="text-danger">{{ form_errors(formAjout.password) }}</div>
-                </div>
-
-                <div class="mb-3">
-                    {{ form_label(formAjout.type) }}
-                    {{ form_widget(formAjout.type) }}
-                </div>
-
-                <button type="submit" class="btn btn-success w-100 mt-3">S'inscrire</button>
-            {{ form_end(formAjout) }}
-        </div>
-        <div class="card-footer text-center">
-            <p>Déjà inscrit ? <a href="{{ path('app_login') }}">Connectez-vous</a></p>
+            </div>
         </div>
     </div>
 </div>

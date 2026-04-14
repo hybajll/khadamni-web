@@ -9,8 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/user')]
+#[IsGranted('ROLE_ADMIN')]
+#[Route('/legacy/user')]
 class UserController extends AbstractController
 {
     // 1. LISTER LES UTILISATEURS (READ)
@@ -33,7 +35,7 @@ class UserController extends AbstractController
             $user->setPrenom($request->request->get('prenom'));
             $user->setEmail($request->request->get('email'));
             $user->setPassword($request->request->get('password')); // À hacher plus tard !
-            $user->setLocalDateTime(new \DateTime());
+            $user->setLocalDateTime(new \DateTimeImmutable());
 
             $entityManager->persist($user);
             $entityManager->flush();
