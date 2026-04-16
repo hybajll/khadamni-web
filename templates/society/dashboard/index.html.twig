@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord - Societe{% endblock %}
+
+{% block body %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="fw-bold text-darken">Tableau de bord</h1>
+            <p class="text-muted">Bienvenue, {{ society.name }}</p>
+        </div>
+        <div class="col-auto">
+            <a href="{{ path('society_offer_new') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-plus me-2"></i> Nouvelle offre
+            </a>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm rounded-3 bg-gradient">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1">Offres totales</p>
+                            <h2 class="text-darken fw-bold mb-0">{{ totalOffers }}</h2>
+                        </div>
+                        <i class="fas fa-file-alt text-orange" style="font-size: 40px; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1">Offres actives</p>
+                            <h2 class="text-darken fw-bold mb-0">{{ activeOffers }}</h2>
+                        </div>
+                        <i class="fas fa-check-circle text-success" style="font-size: 40px; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1">Societe creee</p>
+                            <h6 class="text-darken fw-bold mb-0">{{ society.createdAt|date('d M Y') }}</h6>
+                        </div>
+                        <i class="fas fa-calendar-alt text-info" style="font-size: 40px; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1">Statut</p>
+                            <span class="badge bg-success">{{ society.isActive ? 'Active' : 'Inactive' }}</span>
+                        </div>
+                        <i class="fas fa-toggle-on text-primary" style="font-size: 40px; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header border-0 bg-white rounded-top-3">
+                    <h5 class="text-darken fw-bold mb-0">Vos offres d'emploi</h5>
+                </div>
+                <div class="card-body">
+                    {% if offers %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr class="border-bottom">
+                                    <th class="text-muted">Titre</th>
+                                    <th class="text-muted">Type de contrat</th>
+                                    <th class="text-muted">Localisation</th>
+                                    <th class="text-muted">Salaire</th>
+                                    <th class="text-muted">Date d'expiration</th>
+                                    <th class="text-muted">Statut</th>
+                                    <th class="text-muted">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for offer in offers %}
+                                <tr>
+                                    <td class="text-darken fw-500">{{ offer.title }}</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">{{ offer.contractType }}</span>
+                                    </td>
+                                    <td class="text-muted">{{ offer.location or '-' }}</td>
+                                    <td class="text-orange fw-bold">{{ offer.salary or '-' }}</td>
+                                    <td class="text-muted">{{ offer.expirationDate ? offer.expirationDate|date('d M Y') : '-' }}</td>
+                                    <td>
+                                        <span class="badge {% if offer.isActive %}bg-success{% else %}bg-danger{% endif %}">
+                                            {{ offer.isActive ? 'Active' : 'Inactive' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{{ path('society_offer_show', {id: offer.id}) }}" class="btn btn-outline-primary" title="Voir">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="{{ path('society_offer_edit', {id: offer.id}) }}" class="btn btn-outline-secondary" title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form method="POST" action="{{ path('society_offer_delete', {id: offer.id}) }}" class="d-inline" onsubmit="return confirm('Etes-vous sur de vouloir supprimer cette offre ?');">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm" title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Vous n'avez pas encore publie d'offre. 
+                        <a href="{{ path('society_offer_new') }}" class="alert-link">Creer une nouvelle offre</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

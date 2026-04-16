@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Societe{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <h1 class="display-4 fw-bold text-darken mb-3">Bienvenue, {{ society.name }}</h1>
+            <p class="lead text-muted mb-4">Gerez vos offres d'emploi et trouvez les meilleurs talents pour votre entreprise.</p>
+            <div class="btn-group">
+                <a href="{{ path('society_dashboard') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-tachometer-alt me-2"></i> Tableau de bord
+                </a>
+                <a href="{{ path('society_offer_new') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-plus me-2"></i> Nouvelle offre
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="feature-icon mb-4">
+                <i class="fas fa-briefcase" style="font-size: 120px; color: var(--kh-orange);"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body text-center">
+                    <i class="fas fa-file-alt text-orange" style="font-size: 40px; margin-bottom: 1rem;"></i>
+                    <h5 class="card-title">{{ offers|length }} Offres</h5>
+                    <p class="text-muted">Offres publiees par votre entreprise</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body text-center">
+                    <i class="fas fa-users text-orange" style="font-size: 40px; margin-bottom: 1rem;"></i>
+                    <h5 class="card-title">Candidats</h5>
+                    <p class="text-muted">Trouvez les meilleurs talents</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-line text-orange" style="font-size: 40px; margin-bottom: 1rem;"></i>
+                    <h5 class="card-title">Statistiques</h5>
+                    <p class="text-muted">Suivez vos performances</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if offers %}
+    <div class="mb-5">
+        <h2 class="text-darken fw-bold mb-4">Vos dernieres offres</h2>
+        <div class="row">
+            {% for offer in offers[:3] %}
+            <div class="col-md-12 mb-3">
+                <div class="card border-0 shadow-sm rounded-3 h-100">
+                    <div class="card-body">
+                        <div class="row align-items-start">
+                            <div class="col-md-9">
+                                <h5 class="card-title text-darken">{{ offer.title }}</h5>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-map-marker-alt me-2"></i> {{ offer.location or 'Non specifiee' }}
+                                    {% if offer.contractType %}
+                                    <span class="badge bg-light text-dark ms-2">{{ offer.contractType }}</span>
+                                    {% endif %}
+                                </p>
+                                <p class="text-truncate">{{ offer.description[:100] }}...</p>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                {% if offer.salary %}
+                                <p class="text-orange fw-bold mb-3">{{ offer.salary }} TND</p>
+                                {% endif %}
+                                <div class="btn-group-vertical w-100">
+                                    <a href="{{ path('society_offer_show', {id: offer.id}) }}" class="btn btn-sm btn-outline-primary">Voir</a>
+                                    <a href="{{ path('society_offer_edit', {id: offer.id}) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-info-circle me-2"></i>
+        Vous n'avez pas encore publie d'offre. 
+        <a href="{{ path('society_offer_new') }}" class="alert-link">Publier votre premiere offre</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

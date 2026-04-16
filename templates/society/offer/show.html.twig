@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ offer.title }} - {{ offer.society.name }}{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-header border-0 bg-white rounded-top-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h2 class="text-darken fw-bold mb-1">{{ offer.title }}</h2>
+                            <p class="text-muted mb-0">
+                                <i class="fas fa-building me-2"></i>{{ offer.society.name }}
+                            </p>
+                        </div>
+                        <div class="btn-group">
+                            <a href="{{ path('society_offer_edit', {id: offer.id}) }}" class="btn btn-outline-primary">
+                                <i class="fas fa-edit me-2"></i> Modifier
+                            </a>
+                            <form method="POST" action="{{ path('society_offer_delete', {id: offer.id}) }}" class="d-inline" onsubmit="return confirm('Etes-vous sur de vouloir supprimer cette offre ?');">
+                                <button type="submit" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash me-2"></i> Supprimer
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Domaine</p>
+                            <h5 class="text-darken fw-bold">{{ offer.domain or '-' }}</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Localisation</p>
+                            <h5 class="text-darken fw-bold">
+                                <i class="fas fa-map-marker-alt me-2 text-orange"></i>{{ offer.location or '-' }}
+                            </h5>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Type de contrat</p>
+                            <span class="badge bg-light text-dark" style="font-size: 12px;">{{ offer.contractType }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Salaire</p>
+                            <h5 class="text-orange fw-bold">{{ offer.salary ? offer.salary ~ ' TND' : '-' }}</h5>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Niveau d'experience</p>
+                            <h5 class="text-darken fw-bold">{{ offer.experienceLevel or '-' }}</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Date d'expiration</p>
+                            <h5 class="text-darken fw-bold">{{ offer.expirationDate ? offer.expirationDate|date('d M Y') : 'Pas de limite' }}</h5>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="mb-4">
+                        <h5 class="text-darken fw-bold mb-3">Description du poste</h5>
+                        <p class="text-darken lh-lg">{{ offer.description|nl2br }}</p>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Statut</p>
+                            <span class="badge {% if offer.isActive %}bg-success{% else %}bg-danger{% endif %}">
+                                {{ offer.isActive ? 'Active' : 'Inactive' }}
+                            </span>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Publiee le</p>
+                            <h6 class="text-darken fw-bold mb-0">{{ offer.createdAt|date('d M Y a H:i') }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-4">
+                <a href="{{ path('society_dashboard') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i> Retour au tableau de bord
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

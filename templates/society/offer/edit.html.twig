@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'offre - {{ offer.title }}{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header border-0 bg-white rounded-top-4">
+                    <h3 class="text-darken fw-bold mb-0">Modifier l'offre d'emploi</h3>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_row(form.title, {
+                                attr: {class: 'form-control'}
+                            }) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_row(form.description, {
+                                attr: {class: 'form-control', rows: 6}
+                            }) }}
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form_row(form.domain, {
+                                    attr: {class: 'form-control'}
+                                }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.location, {
+                                    attr: {class: 'form-control'}
+                                }) }}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form_row(form.contractType, {
+                                    attr: {class: 'form-select'}
+                                }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.salary, {
+                                    attr: {class: 'form-control'}
+                                }) }}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form_row(form.experienceLevel, {
+                                    attr: {class: 'form-select'}
+                                }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.expirationDate, {
+                                    attr: {class: 'form-control'}
+                                }) }}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ path('society_dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-2"></i> Annuler
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i> Enregistrer les modifications
+                            </button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -121,7 +121,11 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
             <div class="container">
+ HEAD
                 <a class="navbar-brand" href="{% if app.user and app.user.type == 'admin' %}{{ path('app_admin_dashboard') }}{% elseif app.user %}{{ path('app_user_home') }}{% else %}{{ path('app_login') }}{% endif %}">
+
+                <a class="navbar-brand" href="{% if app.user %}{% if 'ROLE_SOCIETY' in app.user.roles %}{{ path('society_home') }}{% elseif 'ROLE_ADMIN' in app.user.roles %}{{ path('app_admin_dashboard') }}{% else %}{{ path('app_user_home') }}{% endif %}{% else %}{{ path('app_login') }}{% endif %}">
+ 56b697f03a8108af8719bcf1db0349a35763598e
                     <div class="logo-khadamni">
                         <span class="logo-text">خدمني</span>
                         <small>خدمتك معانا مضمونة</small>
@@ -135,19 +139,58 @@
                 <div class="collapse navbar-collapse" id="navbarMain">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         {% if app.user %}
+ HEAD
                             {% if app.user.type == 'admin' %}
                                 <li class="nav-item"><a class="nav-link" href="{{ path('app_admin_dashboard') }}">Admin</a></li>
+
+                            {% if 'ROLE_SOCIETY' in app.user.roles %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('society_home') }}">Accueil</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('society_dashboard') }}">Offres</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('society_offer_new') }}">Publier</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('society_profile') }}">Profil</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('society_logout') }}">Déconnexion</a></li>
+                            {% elseif app.user.type == 'admin' %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('app_admin_dashboard') }}">Admin</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
+>>>>>>> 56b697f03a8108af8719bcf1db0349a35763598e
                             {% else %}
                                 <li class="nav-item"><a class="nav-link" href="{{ path('app_user_home') }}">Accueil</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ path('app_profile') }}">Profil</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ path('app_cv_manage') }}">CV</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#" onclick="return false;">Offres</a></li>
+ HEAD
                                 <li class="nav-item"><a class="nav-link" href=" {{ path('app_user_reclamation_index') }}" >Réclamations</a></li>
                             {% endif %}
                             <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
                         {% else %}
                             <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Connexion</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Inscription</a></li>
+
+                                <li class="nav-item"><a class="nav-link" href="#" onclick="return false;">Réclamations</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                            {% endif %}
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-sign-in-alt me-1"></i> Connexion
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{ path('app_login') }}"><i class="fas fa-user me-2"></i> Candidat</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ path('society_login') }}"><i class="fas fa-building me-2"></i> Entreprise</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-plus me-1"></i> Inscription
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                    <li><a class="dropdown-item" href="{{ path('app_register') }}"><i class="fas fa-user me-2"></i> Candidat</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ path('society_register') }}"><i class="fas fa-building me-2"></i> Entreprise</a></li>
+                                </ul>
+                            </li>
+ 56b697f03a8108af8719bcf1db0349a35763598e
                         {% endif %}
                     </ul>
                 </div>

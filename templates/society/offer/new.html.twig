@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Creer une nouvelle offre{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header border-0 bg-white rounded-top-4">
+                    <h3 class="text-darken fw-bold mb-0">Creer une nouvelle offre d'emploi</h3>
+                </div>
+                <div class="card-body">
+                    {% if form.vars.errors|length > 0 %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong><i class="fas fa-exclamation-triangle me-2"></i>Erreurs dans le formulaire:</strong>
+                            <ul class="mb-0 mt-2">
+                                {% for error in form.vars.errors %}
+                                    <li>{{ error.message }}</li>
+                                {% endfor %}
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+
+                    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                        <div class="mb-3">
+                            {{ form_label(form.title) }}
+                            {{ form_widget(form.title, {
+                                attr: {
+                                    'class': 'form-control' ~ (form.title.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                    'placeholder': 'Titre du poste'
+                                }
+                            }) }}
+                            {% if form.title.vars.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.title.vars.errors %}
+                                        <i class="fas fa-times-circle me-1"></i>{{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.description) }}
+                            {{ form_widget(form.description, {
+                                attr: {
+                                    'class': 'form-control' ~ (form.description.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                    'rows': 6,
+                                    'placeholder': 'Description complete du poste'
+                                }
+                            }) }}
+                            {% if form.description.vars.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.description.vars.errors %}
+                                        <i class="fas fa-times-circle me-1"></i>{{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form_label(form.domain) }}
+                                {{ form_widget(form.domain, {
+                                    attr: {class: 'form-control', placeholder: 'Domaine'}
+                                }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(form.location) }}
+                                {{ form_widget(form.location, {
+                                    attr: {class: 'form-control', placeholder: 'Localisation'}
+                                }) }}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form_label(form.contractType) }}
+                                {{ form_widget(form.contractType, {
+                                    attr: {
+                                        'class': 'form-select' ~ (form.contractType.vars.errors|length > 0 ? ' is-invalid' : '')
+                                    }
+                                }) }}
+                                {% if form.contractType.vars.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.contractType.vars.errors %}
+                                            <i class="fas fa-times-circle me-1"></i>{{ error.message }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(form.salary) }}
+                                {{ form_widget(form.salary, {
+                                    attr: {
+                                        'class': 'form-control' ~ (form.salary.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                        'placeholder': '0.00',
+                                        'step': '0.01',
+                                        'min': '0'
+                                    }
+                                }) }}
+                                {% if form.salary.vars.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.salary.vars.errors %}
+                                            <i class="fas fa-times-circle me-1"></i>{{ error.message }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form_label(form.experienceLevel) }}
+                                {{ form_widget(form.experienceLevel, {
+                                    attr: {
+                                        'class': 'form-select' ~ (form.experienceLevel.vars.errors|length > 0 ? ' is-invalid' : '')
+                                    }
+                                }) }}
+                                {% if form.experienceLevel.vars.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.experienceLevel.vars.errors %}
+                                            <i class="fas fa-times-circle me-1"></i>{{ error.message }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(form.expirationDate) }}
+                                {{ form_widget(form.expirationDate, {
+                                    attr: {
+                                        'class': 'form-control' ~ (form.expirationDate.vars.errors|length > 0 ? ' is-invalid' : '')
+                                    }
+                                }) }}
+                                {% if form.expirationDate.vars.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.expirationDate.vars.errors %}
+                                            <i class="fas fa-times-circle me-1"></i>{{ error.message }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ path('society_dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-2"></i> Annuler
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-check me-2"></i> Publier l'offre
+                            </button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
