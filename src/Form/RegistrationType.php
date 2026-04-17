@@ -4,12 +4,14 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationType extends AbstractType
@@ -17,6 +19,23 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('avatarFile', FileType::class, [
+                'label' => 'Photo de profil (optionnel)',
+                'mapped' => false,
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/webp',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez uploader une image (JPG, PNG ou WEBP).',
+                    ]),
+                ],
+            ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
@@ -33,7 +52,7 @@ class RegistrationType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Mot de passe (min 4 caracteres)'],
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Mot de passe (min 4 caractères)'],
             ])
             ->add('type', ChoiceType::class, [
                 'mapped' => false,
@@ -54,6 +73,7 @@ class RegistrationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'validation_groups' => ['Default', 'user_password'],
         ]);
     }
 }

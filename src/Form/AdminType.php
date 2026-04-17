@@ -36,30 +36,46 @@ class AdminType extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
                 'required' => false,
+                'attr' => [
+                    'placeholder' => 'Nom (optionnel)',
+                ],
             ])
             ->add('prenom', TextType::class, [
-                'label' => 'Prenom',
+                'label' => 'Prénom',
                 'required' => false,
+                'attr' => [
+                    'placeholder' => 'Prénom (optionnel)',
+                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'admin@exemple.com',
+                ],
             ])
-            ->add('role', ChoiceType::class, [
-                'label' => 'Role admin',
+            ->add('adminRole', ChoiceType::class, [
+                'label' => 'Rôle admin',
                 'choices' => [
                     'Super Admin' => Admin::BUSINESS_ROLE_SUPER_ADMIN,
                     'Gestionnaire' => Admin::BUSINESS_ROLE_GESTIONNAIRE,
-                    'Moderateur' => Admin::BUSINESS_ROLE_MODERATEUR,
+                    'Modérateur' => Admin::BUSINESS_ROLE_MODERATEUR,
                 ],
-                'placeholder' => 'Choisir un role',
+                'placeholder' => 'Choisir un rôle',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez choisir un rôle admin.']),
+                ],
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => $isEdit ? 'Nouveau mot de passe' : 'Mot de passe',
                 'mapped' => false,
                 'required' => !$isEdit,
                 'empty_data' => '',
-                'help' => $isEdit ? 'Laissez vide pour conserver le mot de passe actuel.' : null,
+                'help' => $isEdit ? 'Laissez vide pour conserver le mot de passe actuel.' : 'Obligatoire (minimum 4 caractères).',
                 'constraints' => $passwordConstraints,
+                'attr' => [
+                    'placeholder' => 'Mot de passe',
+                ],
             ]);
     }
 

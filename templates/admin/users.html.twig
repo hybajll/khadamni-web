@@ -7,9 +7,24 @@
     <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
         <div>
             <h1 class="h4 mb-1 text-darken">Utilisateurs</h1>
-            <div class="text-muted">Liste de tous les utilisateurs.</div>
+            <div class="text-muted">Liste des utilisateurs (hors admins).</div>
         </div>
-        <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
+        <div class="d-flex gap-2 align-items-center">
+            <form method="get" class="d-flex gap-2" action="{{ path('app_admin_users') }}">
+                <input
+                    type="search"
+                    name="q"
+                    value="{{ q|default('') }}"
+                    class="form-control"
+                    placeholder="Rechercher (email, nom, prénom)"
+                >
+                <button class="btn btn-primary" type="submit">Rechercher</button>
+                {% if q|default('') %}
+                    <a class="btn btn-light border" href="{{ path('app_admin_users') }}">Reset</a>
+                {% endif %}
+            </form>
+            <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
+        </div>
     </div>
 
     <div class="card">
@@ -20,9 +35,10 @@
                         <tr>
                             <th>ID</th>
                             <th>Email</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
                             <th>Type</th>
                             <th>Active</th>
-                            <th>Admin role</th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
@@ -31,6 +47,8 @@
                             <tr>
                                 <td>{{ u.id }}</td>
                                 <td>{{ u.email }}</td>
+                                <td>{{ u.nom ?: '-' }}</td>
+                                <td>{{ u.prenom ?: '-' }}</td>
                                 <td>{{ u.type }}</td>
                                 <td>
                                     {% if u.active %}
@@ -39,7 +57,6 @@
                                         <span class="badge text-bg-secondary">Inactif</span>
                                     {% endif %}
                                 </td>
-                                <td>{{ u.adminRole ?: '-' }}</td>
                                 <td class="text-end">
                                     <form method="post" action="{{ path('app_admin_user_toggle_active', {id: u.id}) }}" class="d-inline">
                                         <input type="hidden" name="_token" value="{{ csrf_token('toggle_active_' ~ u.id) }}">
@@ -55,7 +72,7 @@
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="6" class="text-center text-muted py-4">Aucun utilisateur.</td>
+                                <td colspan="7" class="text-center text-muted py-4">Aucun utilisateur.</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -65,4 +82,3 @@
     </div>
 </div>
 {% endblock %}
-

@@ -10,6 +10,19 @@
             <div class="text-muted">Liste des admins + ajout manuel.</div>
         </div>
         <div class="d-flex gap-2">
+            <form method="get" class="d-flex gap-2" action="{{ path('app_admin_admins') }}">
+                <input
+                    type="search"
+                    name="q"
+                    value="{{ q|default('') }}"
+                    class="form-control"
+                    placeholder="Rechercher (email, rôle)"
+                >
+                <button class="btn btn-primary" type="submit">Rechercher</button>
+                {% if q|default('') %}
+                    <a class="btn btn-light border" href="{{ path('app_admin_admins') }}">Reset</a>
+                {% endif %}
+            </form>
             <a href="{{ path('app_admin_admins_new') }}" class="btn btn-primary">Ajouter un admin</a>
             <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
         </div>
@@ -53,4 +66,3 @@
     </div>
 </div>
 {% endblock %}
-

@@ -32,19 +32,110 @@
                 font-family: 'Poppins', sans-serif;
             }
 
-            .bg-cream { background: var(--kh-cream) !important; }
-            .text-darken { color: var(--kh-text); }
-            .text-orange { color: var(--kh-orange) !important; }
-            .navbar { background: linear-gradient(135deg, var(--kh-navy) 0%, #102f52 100%) !important; }
-            .navbar-brand { font-weight: 800; letter-spacing: 0.02em; }
-            .nav-link { color: rgba(255, 255, 255, 0.9) !important; }
-            .nav-link:hover { color: var(--kh-orange) !important; }
-            .card { border: none; border-radius: 1rem; box-shadow: 0 1rem 2rem rgba(15, 47, 70, 0.10); }
-            .btn-primary { background-color: var(--kh-orange); border-color: var(--kh-orange); }
-            .btn-primary:hover { background-color: #e57a00; border-color: #e57a00; }
-            .logo-khadamni { display: flex; flex-direction: column; align-items: flex-start; font-family: 'Cairo', sans-serif; line-height: 1; }
-            .logo-khadamni .logo-text { font-size: 1.35rem; font-weight: 800; color: var(--kh-orange); }
-            .logo-khadamni small { font-size: 0.85rem; color: rgba(255, 255, 255, 0.85); margin-top: 0.15rem; }
+            .bg-cream {
+                background: var(--kh-cream) !important;
+            }
+
+            .text-darken {
+                color: var(--kh-text);
+            }
+
+            .text-orange {
+                color: var(--kh-orange) !important;
+            }
+
+            .navbar {
+                background: linear-gradient(135deg, var(--kh-navy) 0%, #102f52 100%) !important;
+            }
+
+            .navbar-brand {
+                font-weight: 800;
+                letter-spacing: 0.02em;
+            }
+
+            .nav-link {
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+
+            .nav-link:hover {
+                color: var(--kh-orange) !important;
+            }
+
+            .card {
+                border: none;
+                border-radius: 1rem;
+                box-shadow: 0 1rem 2rem rgba(15, 47, 70, 0.10);
+            }
+
+            .btn-primary {
+                background-color: var(--kh-orange);
+                border-color: var(--kh-orange);
+            }
+
+            .btn-primary:hover {
+                background-color: #e57a00;
+                border-color: #e57a00;
+            }
+
+            .btn-outline-primary {
+                color: var(--kh-orange);
+                border-color: var(--kh-orange);
+            }
+
+            .btn-outline-primary:hover {
+                background-color: var(--kh-orange);
+                border-color: var(--kh-orange);
+            }
+
+            .hero-auth {
+                min-height: calc(100vh - 90px);
+            }
+
+            .logo-khadamni {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                font-family: 'Cairo', sans-serif;
+                line-height: 1;
+            }
+
+            .logo-khadamni .logo-text {
+                font-size: 1.35rem;
+                font-weight: 800;
+                color: var(--kh-orange);
+            }
+
+            .logo-khadamni small {
+                font-size: 0.85rem;
+                color: rgba(255, 255, 255, 0.85);
+                margin-top: 0.15rem;
+            }
+
+            .nav-avatar {
+                width: 34px;
+                height: 34px;
+                border-radius: 999px;
+                object-fit: cover;
+                border: 2px solid rgba(255, 255, 255, 0.35);
+            }
+
+            .nav-avatar-fallback {
+                width: 34px;
+                height: 34px;
+                border-radius: 999px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 800;
+                color: #ffffff;
+                background: rgba(255, 255, 255, 0.18);
+                border: 2px solid rgba(255, 255, 255, 0.25);
+                font-family: 'Poppins', sans-serif;
+            }
+
+            main {
+                background: var(--kh-cream);
+            }
         </style>
 
         {% block stylesheets %}{% endblock %}
@@ -85,9 +176,16 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ path('app_cv_manage') }}">CV</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ path('app_user_reclamation_index') }}">Réclamations</a></li>
                             {% endif %}
-                            
-                            <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                            <li class="nav-item ms-lg-2 d-flex align-items-center">
+                                <a class="nav-link py-1" href="{{ path('app_profile') }}" title="Mon profil">
+                                    {% if app.user.avatarPath %}
+                                        <img src="{{ asset(app.user.avatarPath) }}" alt="Avatar" class="nav-avatar">
+                                    {% else %}
+                                        <span class="nav-avatar-fallback">{{ (app.user.prenom ?: app.user.email)|first|upper }}</span>
+                                    {% endif %}
+                                </a>
+                            </li>
                         {% else %}
                             {# MENU NON CONNECTÉ #}
                             <li class="nav-item dropdown">

@@ -8,6 +8,7 @@ use App\Form\AdminType;
 use App\Repository\AdminRepository;
 use App\Repository\CvRepository;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,10 +28,13 @@ final class AdminDashboardController extends AbstractController
     }
 
     #[Route('/users', name: 'app_admin_users', methods: ['GET'])]
-    public function users(UserRepository $userRepository): Response
+    public function users(Request $request, UserRepository $userRepository): Response
     {
+        $query = (string) $request->query->get('q', '');
+
         return $this->render('admin/users.html.twig', [
-            'users' => $userRepository->findBy([], ['id' => 'DESC']),
+            'users' => $userRepository->findNonAdmins($query),
+            'q' => $query,
         ]);
     }
 
@@ -70,18 +74,24 @@ final class AdminDashboardController extends AbstractController
     }
 
     #[Route('/cvs', name: 'app_admin_cvs', methods: ['GET'])]
-    public function cvs(CvRepository $cvRepository): Response
+    public function cvs(Request $request, CvRepository $cvRepository): Response
     {
+        $query = (string) $request->query->get('q', '');
+
         return $this->render('admin/cvs.html.twig', [
-            'cvs' => $cvRepository->findBy([], ['id' => 'DESC']),
+            'cvs' => $cvRepository->findWithUserSearch($query),
+            'q' => $query,
         ]);
     }
 
     #[Route('/admins', name: 'app_admin_admins', methods: ['GET'])]
-    public function admins(AdminRepository $adminRepository): Response
+    public function admins(Request $request, AdminRepository $adminRepository): Response
     {
+        $query = (string) $request->query->get('q', '');
+
         return $this->render('admin/admins.html.twig', [
-            'admins' => $adminRepository->findBy([], ['id' => 'DESC']),
+            'admins' => $adminRepository->findSearch($query),
+            'q' => $query,
         ]);
     }
 
@@ -103,11 +113,15 @@ final class AdminDashboardController extends AbstractController
                 ->setIsActive(true)
                 ->setLocalDateTime(new \DateTimeImmutable());
 
-            $entityManager->persist($admin);
-            $entityManager->flush();
+            try {
+                $entityManager->persist($admin);
+                $entityManager->flush();
 
-            $this->addFlash('success', 'Administrateur créé.');
-            return $this->redirectToRoute('app_admin_admins');
+                $this->addFlash('success', 'Administrateur créé.');
+                return $this->redirectToRoute('app_admin_admins');
+            } catch (UniqueConstraintViolationException) {
+                $this->addFlash('error', 'Cet email est déjà utilisé.');
+            }
         }
 
         return $this->render('admin/admin_new.html.twig', [
@@ -115,4 +129,3 @@ final class AdminDashboardController extends AbstractController
         ]);
     }
 }
-

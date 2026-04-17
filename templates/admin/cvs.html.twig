@@ -9,7 +9,22 @@
             <h1 class="h4 mb-1 text-darken">CVs</h1>
             <div class="text-muted">Liste de tous les CV (original + amélioré).</div>
         </div>
-        <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
+        <div class="d-flex gap-2 align-items-center">
+            <form method="get" class="d-flex gap-2" action="{{ path('app_admin_cvs') }}">
+                <input
+                    type="search"
+                    name="q"
+                    value="{{ q|default('') }}"
+                    class="form-control"
+                    placeholder="Rechercher (titre, email)"
+                >
+                <button class="btn btn-primary" type="submit">Rechercher</button>
+                {% if q|default('') %}
+                    <a class="btn btn-light border" href="{{ path('app_admin_cvs') }}">Reset</a>
+                {% endif %}
+            </form>
+            <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">Retour</a>
+        </div>
     </div>
 
     <div class="accordion" id="cvsAccordion">
@@ -49,4 +64,3 @@
     </div>
 </div>
 {% endblock %}
-

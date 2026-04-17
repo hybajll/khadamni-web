@@ -25,11 +25,13 @@ class Cv
     private ?string $titre = null;
 
     #[ORM\Column(name: 'contenuOriginal', type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'Le contenu original du CV est obligatoire.')]
     private ?string $contenuOriginal = null;
 
     #[ORM\Column(name: 'contenuAmeliore', type: Types::TEXT, nullable: true)]
     private ?string $contenuAmeliore = null;
+
+    #[ORM\Column(name: 'conseilsAi', type: Types::TEXT, nullable: true)]
+    private ?string $conseilsAi = null;
 
     #[ORM\Column(name: 'dateUpload', type: Types::DATETIME_MUTABLE)]
     #[Assert\NotNull(message: 'La date d upload est obligatoire.')]
@@ -63,10 +65,13 @@ class Cv
     public function setTitre(string $titre): self { $this->titre = $titre; return $this; }
 
     public function getContenuOriginal(): ?string { return $this->contenuOriginal; }
-    public function setContenuOriginal(string $contenuOriginal): self { $this->contenuOriginal = $contenuOriginal; return $this; }
+    public function setContenuOriginal(?string $contenuOriginal): self { $this->contenuOriginal = $contenuOriginal; return $this; }
 
     public function getContenuAmeliore(): ?string { return $this->contenuAmeliore; }
     public function setContenuAmeliore(?string $contenuAmeliore): self { $this->contenuAmeliore = $contenuAmeliore; return $this; }
+
+    public function getConseilsAi(): ?string { return $this->conseilsAi; }
+    public function setConseilsAi(?string $conseilsAi): self { $this->conseilsAi = $conseilsAi; return $this; }
 
     public function getDateUpload(): ?\DateTimeInterface { return $this->dateUpload; }
     public function setDateUpload(\DateTimeInterface $dateUpload): self { $this->dateUpload = $dateUpload; return $this; }

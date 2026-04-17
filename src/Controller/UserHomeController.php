@@ -17,10 +17,20 @@ final class UserHomeController extends AbstractController
         $videoEmbedUrl = (string) $this->getParameter('app.motivational_video_embed_url');
         $videoEmbedUrl = trim($videoEmbedUrl) !== '' ? trim($videoEmbedUrl) : null;
 
+        $videoPath = (string) $this->getParameter('app.motivational_video_path');
+        $videoPath = trim($videoPath) !== '' ? trim($videoPath) : null;
+        if ($videoPath !== null) {
+            $publicVideoAbsolutePath = rtrim((string) $this->getParameter('kernel.project_dir'), '\\/') . '/public/' . ltrim($videoPath, '\\/');
+            if (!is_file($publicVideoAbsolutePath)) {
+                $videoPath = null;
+            }
+        }
+
         return $this->render('user/home.html.twig', [
             'user' => $this->getUser(),
             'news' => $mockJobNewsService->getLatest(),
             'video_embed_url' => $videoEmbedUrl,
+            'video_path' => $videoPath,
         ]);
     }
 }

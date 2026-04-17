@@ -19,6 +19,13 @@
                         {% endif %}
 
                         {{ form_start(formAjout, {'attr': {'novalidate': 'novalidate', 'data-turbo': 'false'}}) }}
+                            <div class="mt-2">
+                                {{ form_label(formAjout.avatarFile) }}
+                                {{ form_widget(formAjout.avatarFile, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-text">Formats acceptés: JPG, PNG, WEBP (max 2 Mo).</div>
+                                <div class="text-danger mt-1 small">{{ form_errors(formAjout.avatarFile) }}</div>
+                            </div>
+
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     {{ form_label(formAjout.nom) }}

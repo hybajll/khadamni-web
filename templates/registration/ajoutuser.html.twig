@@ -14,8 +14,8 @@
                 <div class="card border-0 shadow-sm rounded-4">
                     <div class="card-body p-5">
                         <div class="text-center mb-4">
-                            <h2 class="fw-bold text-darken mb-2">CrÃ©er un compte</h2>
-                            <p class="text-muted mb-0">Rejoignez Khadamni et gÃ©rez votre profil facilement.</p>
+                            <h2 class="fw-bold text-darken mb-2">Créer un compte</h2>
+                            <p class="text-muted mb-0">Rejoignez Khadamni et gérez votre profil facilement.</p>
                         </div>
 
                         {% for message in app.flashes('success') %}
@@ -23,7 +23,7 @@
                         {% endfor %}
 
                         {% if formAjout.vars.submitted and not formAjout.vars.valid %}
-                            <div class="alert alert-danger">Le formulaire contient des erreurs. VÃ©rifiez les champs ci-dessous.</div>
+                            <div class="alert alert-danger">Le formulaire contient des erreurs. Vérifiez les champs ci-dessous.</div>
                         {% endif %}
 
                         {{ form_start(formAjout, {'attr': {'novalidate': 'novalidate', 'data-turbo': 'false'}}) }}
@@ -68,7 +68,7 @@
                         {{ form_end(formAjout) }}
 
                         <div class="text-center mt-4">
-                            <p class="mb-0">Vous avez dÃ©jÃ  un compte ? <a href="{{ path('app_login') }}" class="text-orange">Connexion</a></p>
+                            <p class="mb-0">Vous avez déjà un compte ? <a href="{{ path('app_login') }}" class="text-orange">Connexion</a></p>
                         </div>
                     </div>
                 </div>

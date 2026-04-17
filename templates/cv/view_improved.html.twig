@@ -28,9 +28,21 @@
             </div>
         </div>
 
+        {% if cv.conseilsAi %}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h2 class="h6 text-uppercase text-muted">Conseils IA (séparés du CV)</h2>
+                        <div class="bg-white border rounded-3 p-3" style="white-space: pre-wrap;">{{ cv.conseilsAi }}</div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
         <div class="col-12">
             <div class="d-flex flex-wrap gap-2">
                 <a href="{{ path('app_cv_manage') }}" class="btn btn-secondary">Retour au CV</a>
+                <a href="{{ path('app_cv_download_improved') }}" class="btn btn-light border">Télécharger le PDF amélioré</a>
                 <form method="POST" action="{{ path('app_cv_improve') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('improve_cv') }}">
                     <button type="submit" class="btn btn-primary">Améliorer à nouveau</button>

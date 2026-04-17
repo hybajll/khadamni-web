@@ -20,9 +20,26 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body p-4">
+                    {% if app.user and app.user.avatarPath %}
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <img
+                                src="{{ asset(app.user.avatarPath) }}"
+                                alt="Avatar"
+                                class="rounded-circle border"
+                                style="width: 72px; height: 72px; object-fit: cover;"
+                            >
+                            <div class="text-muted">
+                                Photo actuelle. Vous pouvez la remplacer ci-dessous.
+                            </div>
+                        </div>
+                    {% endif %}
+
                     {{ form_start(form) }}
 
                     <div class="row g-3">
+                        <div class="col-12">
+                            {{ form_row(form.avatarFile, {attr: {class: 'form-control'}}) }}
+                        </div>
                         <div class="col-md-6">
                             {{ form_row(form.nom, {attr: {class: 'form-control'}}) }}
                         </div>

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'user')]
-#[UniqueEntity(fields: ['email'], message: 'Cet email est deja utilise par un autre utilisateur.')]
+#[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé par un autre utilisateur.', entityClass: User::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
 #[ORM\DiscriminatorMap([
@@ -55,10 +55,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     protected ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le mot de passe est obligatoire.')]
+    #[Assert\NotBlank(message: 'Le mot de passe est obligatoire.', groups: ['user_password'])]
     #[Assert\Length(
         min: 4,
         minMessage: 'Le mot de passe doit faire au moins {{ limit }} caracteres.'
+        ,
+        groups: ['user_password']
     )]
     protected ?string $password = null;
 
@@ -72,19 +74,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'role', length: 255, nullable: true)]
     protected ?string $adminRole = null;
 
-    /**
-     * Relation avec les réclamations créées par cet utilisateur
-     */
-    #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'user')]
-    protected Collection $reclamations;
-
-    public function __construct()
-    {
-        $this->reclamations = new ArrayCollection();
-        $this->isActive = true;
-    }
-
-    // --- Getters & Setters ---
+    // Keep DB column name in camelCase to match existing database column created on XAMPP.
+    #[ORM\Column(name: 'avatarPath', length: 255, nullable: true)]
+    protected ?string $avatarPath = null;
 
     public function getId(): ?int
     {
@@ -190,7 +182,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->setAdminRole($role);
     }
 
-    // --- Logic & Interface Methods ---
+    public function getAvatarPath(): ?string
+    {
+        return $this->avatarPath;
+    }
+
+    public function setAvatarPath(?string $avatarPath): self
+    {
+        $this->avatarPath = $avatarPath;
+
+        return $this;
+    }
 
     public function getType(): string
     {

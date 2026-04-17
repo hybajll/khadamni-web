@@ -16,6 +16,26 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * @return User[]
+     */
+    public function findNonAdmins(?string $query = null): array
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->andWhere('u INSTANCE OF App\\Entity\\Etudiant OR u INSTANCE OF App\\Entity\\Diplome')
+            ->orderBy('u.id', 'DESC');
+
+        $query = trim((string) $query);
+        if ($query !== '') {
+            $q = '%' . mb_strtolower($query) . '%';
+            $qb
+                ->andWhere('LOWER(u.email) LIKE :q OR LOWER(u.nom) LIKE :q OR LOWER(u.prenom) LIKE :q')
+                ->setParameter('q', $q);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */
